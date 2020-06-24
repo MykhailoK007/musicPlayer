@@ -1,0 +1,36 @@
+@media only screen and (max-width:750px) {
+  .player{
+    width: 70%;
+    height: 570px;
+  }
+  .musicListContainer{
+    width: 60%;
+  }
+}
+@media only screen and (max-width:500px) {
+  .player{
+    width: 90%;
+    height: 500px;
+    padding-top: 25% ;
+    border-radius: 50%;
+
+
+  }
+  .trackerContainerWrap{
+    margin-bottom: 0px;
+  }
+  .photo{
+    display: none;
+  }
+  .musicListContainer{
+    top: 200px;
+    border-radius: 60% ;
+    height: 350px;
+    width: 70%;
+    text-align: center
+  }
+  .showList{
+    margin-top: 70px;
+  }
+
+}

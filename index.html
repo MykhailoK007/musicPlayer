@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles/style.css">
+    <link rel="stylesheet" href="assets/styles/style_laptop.css">
+    <link rel="stylesheet" href="assets/styles/style_tablet.css">
+    <link rel="stylesheet" href="assets/styles/style_mobile.css">
+
+    <title>Document</title>
+</head>
+<body>
+    <header>MUSIC APP</header>
+    <div class="clock">
+    </div>
+    <div class="player">
+        <img src="" alt="" class="photo">
+        <div class="contolPanel">
+            <h3 class="musicTitle"></h3>
+            <h5 class="author"></h5>
+            <div class="trackerContainerWrap">
+                <div class="trackerContainer">
+                    <div class="trackerStrip"></div>
+                    <div class="trackerCircle"></div>
+
+                </div>
+                <span class="time">
+                    00 : 00
+                </span>
+            </div>
+
+            <div>
+                <button class="previous"><</button>
+                <button class="play ">Play</button>
+                <button class="next "> > </button>
+            </div>
+            <svg class="showList " width="50" height="50">
+                <line x1="0" y1="50" x2="25" y2="25" style="stroke:white;stroke-width:3"/>
+                <line x1="24" y1="25" x2="50" y2="50" style="stroke:white;stroke-width:3"/>
+
+            </svg>
+        </div>
+    </div>
+    <div class="musicListContainer">
+        <ul class="musicList"></ul>
+    </div>
+    <script type = "module" src="script.js"></script>
+</body>
+</html>

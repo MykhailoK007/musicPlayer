@@ -1,0 +1,57 @@
+@media only screen and (max-width: 1400px) {
+  .player {
+    height: 680px;
+  }
+
+  .musicListContainer {
+    top: 400px;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .player {
+    height: 610px;
+    width: 60%;
+    padding: 10% 5%;
+  }
+
+  .clock {
+    font-size: 25px;
+    right: 2%;
+  }
+
+  .photo {
+    max-height: 200px;
+    border-radius: 30px;
+  }
+
+  .play, .previous, .next {
+    width: 50px;
+    height: 50px;
+  }
+
+  .previous, .next {
+    width: 30px;
+    height: 30px;
+    line-height: 25px;
+    font-size: 20px;
+  }
+
+  .trackerContainer {
+    margin-right: 4%;
+  }
+
+  .musicListContainer {
+    top: 350px;
+  }
+
+  .showList {
+    margin-bottom: -30px;
+  }
+
+  .time {
+    font-size: 15px;
+    margin-top: 5px;
+  }
+}
+
+/*# sourceMappingURL=style_laptop.css.map */
