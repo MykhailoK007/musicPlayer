@@ -194,4 +194,15 @@ data.map((song, index) => {
         checkCurrentSong()
         playOrStop()
     }
+<<<<<<< HEAD
 })
+=======
+})
+playButton.onclick = () => playOrStop(0);
+previousButton.onclick = previousSong;
+nextButton.onclick = nextSong;
+setInterval(() =>{updateTime()},1000);
+
+
+
+>>>>>>> ef2b68c... Add events for phone
