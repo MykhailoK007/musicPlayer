@@ -14,7 +14,7 @@ let musicListContainer = document.querySelector('.musicListContainer');
 let timeContainer = document.querySelector('.time');
 let musicList = document.querySelector('.musicList');
 let showList = document.querySelector('.showList');
-
+let musicListHidden = false;
 let timeLeftToEnd;
 let song = new Audio();
 let currentSong = 0;
@@ -56,10 +56,12 @@ let data = [
         url:'./assets/music/Petit Biscuit - Sunset Lover.mp3'
     }
 ];
+
 function roundNumberToInteger(number) {
     let reply = (''+number).split('.')[0]
     return (reply<10) ? 0 + reply : reply
 }
+//Calculate song duration
 function getSongTime(){
     let minutes = (song.duration-song.currentTime)/60;
     let seconds = (song.duration - song.currentTime) % 60;
@@ -67,6 +69,7 @@ function getSongTime(){
     timeContainer.innerHTML = `${roundNumberToInteger(minutes)} : ${roundNumberToInteger(seconds)}`;
     autoPlay()
 }
+//Show current time on screen
 function updateTime() {
     let time = new Date();
     let hour = time.getHours();
@@ -77,13 +80,21 @@ function updateTime() {
 
     return  clockContainer.innerHTML =  `${hour} : ${minutes}`;
 }
+
 function checkCurrentSong() {
     song.src = data[currentSong].url;
     photo.src = data[currentSong].photo || 'https://fdn.gsmarena.com/imgroot/news/20/04/apple-music-covid-relief/-1220x526/gsmarena_001.jpg';
     name.innerHTML = data[currentSong].name;
     author.innerHTML = data[currentSong].author || 'Unknown Author';
 }
-function playOrStop() {
+//Play or stop music.
+function playOrStop(interrupt) {
+    if(interrupt){
+        song.play()
+        playButton.innerHTML = 'Pause';
+        timeLeftToEnd = setInterval(getSongTime,1000)
+        return 1
+    }
     if(song.paused) {
         song.play()
         playButton.innerHTML = 'Pause';
@@ -91,48 +102,68 @@ function playOrStop() {
     }
     else{
 
-    song.pause()
+        song.pause()
         playButton.innerHTML = 'Play'
         clearInterval(timeLeftToEnd)
     }
 }
+//Move tracker
 function moveAt(e){
     let cursorPositionOnTracker = e.clientX-trackerContainer.getBoundingClientRect().left;
     let cursorPositionAtPercentage = 100 * cursorPositionOnTracker / trackerContainer.getBoundingClientRect().width;
     trackerStrip.style.width =  100 * cursorPositionOnTracker / trackerContainer.getBoundingClientRect().width + '%';
     song.currentTime = cursorPositionAtPercentage * song.duration /100;
 }
-function addForbiddenClass(element) {
+
+function toggleForbiddenClass(element) {
     let previousContent = element.innerHTML;
-        element.classList.add('forbidden');
-        element.innerHTML = 'x'
-        setTimeout(() => {
-            element.classList.remove('forbidden')
-            element.innerHTML = previousContent
-        },2000)
+    element.classList.add('forbidden');
+    element.innerHTML = 'x'
+    setTimeout(() => {
+        element.classList.remove('forbidden')
+        element.innerHTML = previousContent
+    },2000)
 }
+//Play next song
 function nextSong(){
     if(currentSong + 1 < data.length){
         ++currentSong;
         checkCurrentSong()
-        playOrStop()
+        playOrStop(1)
     }
     else {
-     addForbiddenClass(nextButton)
+        toggleForbiddenClass(nextButton)
     }
 }
+//Play previous song
 function previousSong(){
     if(currentSong - 1 >= 0){
         --currentSong;
         checkCurrentSong()
-        playOrStop()
+        playOrStop(1)
     }
     else {
-        addForbiddenClass(previousButton)
+        toggleForbiddenClass(previousButton)
     }
 }
 function autoPlay(){
     (song.currentTime == song.duration)? nextSong():false
+}
+function toggleMusicList(e){
+    musicListHidden = !musicListHidden
+    if(musicListHidden){
+        musicListContainer.style.display = 'block';
+        showList.classList.add('hideList');
+        return 1
+    }
+    musicListContainer.style.display = 'none';
+    showList.classList.remove('hideList');
+    showList.removeEventListener('click',hideList)
+
+    return  0
+
+
+
 }
 
 song.addEventListener('timeupdate',function (){
@@ -141,11 +172,11 @@ song.addEventListener('timeupdate',function (){
 
 })
 
- trackerCircle.onmousedown  = function () {
-     player.addEventListener('mousemove',moveAt)
-     song.pause()
+trackerCircle.onmousedown  = function () {
+    player.addEventListener('mousemove',moveAt)
+    song.pause()
 
- }
+}
 
 trackerCircle.ondragstart = function () {
     return false
@@ -153,31 +184,32 @@ trackerCircle.ondragstart = function () {
 
 trackerCircle.onmouseup = function (){
     player.removeEventListener('mousemove',moveAt);
-    playOrStop()
+    playOrStop(0)
 }
-
-playButton.onclick = playOrStop;
-previousButton.onclick = previousSong;
-nextButton.onclick = nextSong;
-setInterval(() =>{updateTime()},1000) ;
-
-showList.onmouseenter = function (){
-    setTimeout(() => {
-        musicListContainer.style.display = 'block';
-        showList.classList.add('hideList');},0)
-
-}
-
-musicListContainer.onmouseleave = function (e){
-    musicListContainer.style.display = 'none';
-    showList.classList.remove('hideList');
-
-}
-
 trackerContainer.onclick = function(e){
     moveAt(e)
-    playOrStop()
+    playOrStop(1)
 }
+
+
+showList.onmouseenter = toggleMusicList;
+musicListContainer.onmouseleave = toggleMusicList;
+
+showList.ontouchstart = function(e) {
+    e.preventDefault()
+    toggleMusicList();
+    document.body.addEventListener('click',hideList);
+}
+
+
+// Hide music list for phone
+function hideList(e){
+    if(e.target != musicListContainer){
+        toggleMusicList()
+    }
+}
+
+
 
 checkCurrentSong()
 updateTime()
@@ -186,23 +218,16 @@ updateTime()
 data.map((song, index) => {
     let li = document.createElement('li');
 
-    li.innerHTML = `${song.name} - ${song.author}`
+    li.innerHTML = `${song.name} - ${song.author}`;
     musicList.append(li)
 
     li.onclick = function () {
         currentSong = index;
         checkCurrentSong()
-        playOrStop()
+        playOrStop(0);
     }
-<<<<<<< HEAD
-})
-=======
 })
 playButton.onclick = () => playOrStop(0);
 previousButton.onclick = previousSong;
 nextButton.onclick = nextSong;
 setInterval(() =>{updateTime()},1000);
-
-
-
->>>>>>> ef2b68c... Add events for phone
