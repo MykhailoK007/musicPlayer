@@ -214,7 +214,7 @@ function hideList(e){
 checkCurrentSong()
 updateTime()
 
-
+//Add click event for each song
 data.map((song, index) => {
     let li = document.createElement('li');
 
