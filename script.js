@@ -158,7 +158,6 @@ function toggleMusicList(e){
     }
     musicListContainer.style.display = 'none';
     showList.classList.remove('hideList');
-    showList.removeEventListener('click',hideList)
 
     return  0
 
@@ -206,7 +205,11 @@ showList.ontouchstart = function(e) {
 function hideList(e){
     if(e.target != musicListContainer){
         toggleMusicList()
+        document.body.removeEventListener('click', hideList)
+
+        return 1
     }
+
 }
 
 
